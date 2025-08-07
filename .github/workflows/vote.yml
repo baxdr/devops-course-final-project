@@ -1,0 +1,20 @@
+name: Voting App CI/CD
+on:
+  pull_request:
+    branches:
+    - main
+
+jobs:
+  vote-app:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: docker/login-action@v3
+      with:
+        username: ${{ vars.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - run: |
+        pip install -r requirements.txt
+        docker build -t baxdr/voting-app:$GITHUB_SHA -t baxdr/voting-app:latest .
+        docker push baxdr/voting-app:$GITHUB_SHA
+        docker push baxdr/voting-app:latest
