@@ -18,3 +18,10 @@ jobs:
         docker build -t baxdr/voting-app:$GITHUB_SHA -t baxdr/voting-app:latest .
         docker push baxdr/voting-app:$GITHUB_SHA
         docker push baxdr/voting-app:latest
+  
+  super-lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: super-linter/super-linter@v8.0.0
+      
